@@ -15,6 +15,5 @@ public class  Main {
            int userPos = scPos.nextInt();
            l.selectDirection(userPos);
        }
-
     }
 }
