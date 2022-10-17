@@ -1,14 +1,13 @@
 import java.util.Scanner;
 
-public class Lift
+public class  Lift
 {
 
-    int userPos = 0;
     int weightCapacity = 120;
     int liftPos = 0 ;
 
 
-    public void selectDirection()
+    public void selectDirection(int userPos)
     {
         Scanner sc= new Scanner(System.in);
         System.out.print("Enter 0 for DOWN , 1 for UP : ");
@@ -16,8 +15,12 @@ public class Lift
         boolean weightFlag;
         if(userPos != liftPos)
         {
+
             liftPos = moveLiftToUserPos(liftPos,userPos);
-            weightFlag = userWeightCheck(118);
+            Scanner sc1= new Scanner(System.in);
+            System.out.println("Enter the total user weight:");
+            int totalUserWeight = sc1.nextInt();
+            weightFlag = userWeightCheck(totalUserWeight);
         }
         else
         {
@@ -29,7 +32,7 @@ public class Lift
             Scanner sc1= new Scanner(System.in);
             System.out.println("Enter the floor you want to go to :");
             int floorInput= sc1.nextInt();
-            moveLiftToUserInput(floorInput,liftPos);
+            liftPos = moveLiftToUserInput(floorInput,liftPos);
         }
         else
         {
@@ -55,16 +58,15 @@ public class Lift
         return weightFlag;
     }
 
-    public void moveLiftToUserInput(int floorInput , int liftPos)
+    public int moveLiftToUserInput(int floorInput , int liftPos)
     {
         if(this.liftPos > floorInput)
         {
             do
             {
-                System.out.println("You are at floor"+ liftPos) ;
+                System.out.println("You are at floor"+ this.liftPos) ;
                 this.liftPos -= 1;
             }while (this.liftPos != floorInput);
-
         }
         else
         {
@@ -74,7 +76,7 @@ public class Lift
                 this.liftPos += 1;
             }while (this.liftPos != floorInput);
         }
-
+        return this.liftPos;
     }
 
     public int moveLiftToUserPos(int liftPos, int userPos)
@@ -82,8 +84,9 @@ public class Lift
         if(this.liftPos > userPos)
         {
             do{
+
                 System.out.println("Lift is at "+ this.liftPos) ;
-                this.liftPos -= 1;
+                this.liftPos--;
             }while(this.liftPos != userPos);
         }
         else
@@ -95,7 +98,7 @@ public class Lift
             }while(this.liftPos != userPos);
         }
 
-        return liftPos;
+        return this.liftPos;
     }
 
 }
