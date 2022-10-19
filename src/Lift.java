@@ -1,3 +1,6 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class  Lift
@@ -7,32 +10,50 @@ public class  Lift
     int liftPos = 0 ;
 
 
-    public void selectDirection(int userPos)
+    public void selectDirection(int userPos,int numUsers)
     {
         Scanner sc= new Scanner(System.in);
         System.out.print("Enter 0 for DOWN , 1 for UP : ");
         int upOrDown= sc.nextInt();
+
         boolean weightFlag;
         if(userPos != liftPos)
         {
 
-            liftPos = moveLiftToUserPos(liftPos,userPos);
+            liftPos = moveLiftToUserPos(liftPos,userPos,numUsers);
             Scanner sc1= new Scanner(System.in);
-            System.out.println("Enter the total user weight:");
-            int totalUserWeight = sc1.nextInt();
+            System.out.println("Enter the weight of users:");
+            int totalUserWeight = 0;
+            for(int i=0 ; i<numUsers ; i++)
+            {
+                totalUserWeight = totalUserWeight + sc1.nextInt();
+            }
+
             weightFlag = userWeightCheck(totalUserWeight);
         }
         else
         {
-            weightFlag = userWeightCheck(118);
+            int totalUserWeight = 0;
+            Scanner sc1= new Scanner(System.in);
+            System.out.println("Enter the weight of users:");
+            for(int i=0 ; i<numUsers ; i++)
+            {
+                totalUserWeight = totalUserWeight + sc1.nextInt();
+            }
+            weightFlag = userWeightCheck(totalUserWeight);
         }
 
         if (!weightFlag)
         {
             Scanner sc1= new Scanner(System.in);
             System.out.println("Enter the floor you want to go to :");
-            int floorInput= sc1.nextInt();
+            ArrayList<Integer> floorInput = new ArrayList<Integer>();
+            for(int i = 0 ;i < numUsers; i++  )
+            {
+                floorInput.add(sc.nextInt());
+            }
             liftPos = moveLiftToUserInput(floorInput,liftPos);
+
         }
         else
         {
@@ -58,28 +79,33 @@ public class  Lift
         return weightFlag;
     }
 
-    public int moveLiftToUserInput(int floorInput , int liftPos)
+    public int moveLiftToUserInput(List floorInput , int liftPos)
     {
-        if(this.liftPos > floorInput)
+        Object[] floorInputArray = floorInput.toArray();
+        for(int i = 0 ; i < floorInputArray.length ; i++)
         {
-            do
+            if(liftPos < (Integer)floorInputArray[i])
             {
-                System.out.println("You are at floor"+ this.liftPos) ;
-                this.liftPos -= 1;
-            }while (this.liftPos != floorInput);
-        }
-        else
-        {
-            do
+                do
+                {
+
+                    System.out.println("GOING UP"+liftPos) ;
+                    liftPos += 1;
+                }while (liftPos != (Integer)floorInputArray[i]);
+            }
+            else
             {
-                System.out.println("You are at floor"+ this.liftPos) ;
-                this.liftPos += 1;
-            }while (this.liftPos != floorInput);
+                do
+                {
+                    System.out.println("GOING DOWN"+liftPos) ;
+                    liftPos -= 1;
+                }while (liftPos != (Integer)floorInputArray[i]);
+            }
         }
         return this.liftPos;
     }
 
-    public int moveLiftToUserPos(int liftPos, int userPos)
+    public int moveLiftToUserPos(int liftPos, int userPos,int numUsers)
     {
         if(this.liftPos > userPos)
         {

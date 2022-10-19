@@ -13,7 +13,7 @@ public class  Main {
            Scanner scPos= new Scanner(System.in);
            System.out.print("Enter user position :");
            int userPos = scPos.nextInt();
-           l.selectDirection(userPos);
+           l.selectDirection(userPos,3);
        }
     }
 }
